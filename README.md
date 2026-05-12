@@ -9,16 +9,55 @@ To write a program to implement the Decision Tree Classifier Model for Predictin
 
 ## Algorithm
 ```
+Step 1: Import Required Libraries
 
-1.Start the program.
-2.Read two input numbers from the user:
-  *.First number → A
-  *.Second number → B
-3.Perform addition operation:
-  *.Add A and B
-  *.Store the sum in a variable called Result
-4.Display the value of Result on the screen.
-5.Stop the program.
+Import pandas, matplotlib, and sklearn modules for data handling, visualization, and ML.
+
+Step 2: Load Dataset
+
+Read Employee.csv using pandas.read_csv().
+
+Step 3: Identify Target and Features
+
+Target column → left (1 = employee left, 0 = stayed).
+
+Features → satisfaction_level, last_evaluation, number_project, average_montly_hours, time_spend_company, Work_accident, promotion_last_5years, Departments, salary.
+
+Step 4: Preprocess Data
+
+Encode categorical variables (Departments, salary) into numeric values using Label Encoding.
+
+Ensure no missing values exist.
+
+Step 5: Split Dataset
+
+Divide dataset into training set (70%) and testing set (30%) using train_test_split.
+
+Step 6: Build Decision Tree Classifier
+
+Initialize DecisionTreeClassifier with criterion = "entropy" (or "gini") and a maximum depth to prevent overfitting.
+
+Train (fit) the model using training data.
+
+Step 7: Make Predictions
+
+Use the trained model to predict on the test data.
+
+Step 8: Evaluate the Model
+
+Measure performance using:
+
+Accuracy Score
+
+Confusion Matrix
+
+Classification Report (Precision, Recall, F1-Score).
+
+Step 9: Visualize the Decision Tree
+
+Plot the decision tree using sklearn.tree.plot_tree to understand the decision rules.
+
+
 
 ```
 
@@ -29,45 +68,84 @@ Program to implement the Decision Tree Classifier Model for Predicting Employee 
 Developed by: sanjutha D
 RegisterNumber:212225240136
 
+# Decision Tree Classification Example
 
+# Import libraries
+import pandas as pd
 import numpy as np
-from sklearn.tree import DecisionTreeClassifier
+
+from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
+from sklearn import tree
 
-X = np.array([
-    [1, 20000, 2],
-    [3, 30000, 3],
-    [5, 50000, 4],
-    [2, 25000, 2],
-    [7, 70000, 5],
-    [4, 40000, 3],
-    [6, 60000, 4],
-    [1, 22000, 1]
-])
+import matplotlib.pyplot as plt
 
-Y = np.array([1, 0, 0, 1, 0, 0, 0, 1])
+# Load dataset
+data = load_breast_cancer()
 
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
+# Input and Output
+X = data.data
+y = data.target
 
-model = DecisionTreeClassifier()
-model.fit(X_train, Y_train)
+# Split dataset into training and testing
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y,
+    test_size=0.2,
+    random_state=42
+)
 
-Y_pred = model.predict(X_test)
+# Create Decision Tree model
+model = DecisionTreeClassifier(
+    criterion='entropy',
+    max_depth=5,
+    random_state=42
+)
 
-print("Accuracy:", accuracy_score(Y_test, Y_pred))
+# Train model
+model.fit(X_train, y_train)
 
-sample = np.array([[3, 28000, 2]])
-prediction = model.predict(sample)
+# Predict output
+y_pred = model.predict(X_test)
 
-print("Employee Churn Prediction (1=Leave, 0=Stay):", prediction[0])  
+# Accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+
+# Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+print("\nConfusion Matrix:")
+print(cm)
+
+# Classification Report
+cr = classification_report(y_test, y_pred)
+print("\nClassification Report:")
+print(cr)
+
+# Plot Decision Tree
+plt.figure(figsize=(20,10))
+
+tree.plot_tree(
+    model,
+    filled=True,
+    feature_names=data.feature_names,
+    class_names=data.target_names
+)
+
+plt.show()
+  
 */
 ```
 
 ## Output:
 
+<img width="567" height="311" alt="image" src="https://github.com/user-attachments/assets/94ed7302-11e3-4ce8-b5d4-5da8bfb99403" />
 
-<img width="790" height="65" alt="image" src="https://github.com/user-attachments/assets/9aa4547f-7bb0-482b-aa15-c77040a08d3f" />
+
+<img width="1130" height="558" alt="image" src="https://github.com/user-attachments/assets/4a669bb1-c0ea-46ae-b36e-f8befbd3d1d5" />
 
 
 ## Result:
